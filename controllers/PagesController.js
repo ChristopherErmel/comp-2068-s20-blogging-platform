@@ -1,3 +1,9 @@
+/*
+Christopher Ermel
+200250446
+6/03/2020
+ */
+
 //Setting up paths for views
 const viewPath = ('pages');
 

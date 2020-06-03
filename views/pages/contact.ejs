@@ -1,13 +1,98 @@
+<!-- 
+Christopher Ermel
+200250446
+6/03/2020
+-->
+
 <%- include ('../partials/header') %>
 
 <div class="container my-5">
     <header class="jumbotron">
-        <h1>Contact Me!</h1>
+        <h1 style="text-align: center;"><span style="font-size: 1.5em; color: darkslategrey; margin-right: 20px;">Contact Me</span></h1>
     </header>
-
-    <div>
-        <p>This is the begining of my insane ramblings</p>
-    </div>
 </div>
+
+<div class="my-5 jumbotron">
+    <h2>Biography</h2> 
+    <blockquote class="blockquote" style="margin: 2em;">
+        <p class="mb-0">Christopher is currently in his last year of study for Computer Programming at Georgian College, located in Barrie, ON.  Chris loves all aspects of programming and wishes to become a great programmer one day. His language focus is mainly JS, CSS, HTML, PHP and Database for website and mobile implementation and management. While web-programming is his main focus, he also love C++ and JAVA. Along with his interest in programming Chris also loves to fish, play hockey(Goalie) and hangout with friends.</p>
+        <footer class="blockquote-footer">by <cite>Christopher Ermel, 200250446</cite></footer>
+    </blockquote>   
+</div>
+
+
+<!-- Html taken from my personal website's contact form. Shortened and Functionality removed... -->
+<div class="formContainer jumbotron">
+    <h3 style="margin-top: 0em; margin-bottom: 2em;">Contact Form</h3>
+    <form enctype="multipart/form-data" method="post" action="contactMe.php">
+    <label for="fLName">First & Last Name(Required):</label>
+    <input type="text" id="fLName" name="firstLastName" placeholder="Your name...">
+    <br />
+    <label for="email">Email(Required):</label>
+    <input type="email" id="email" name="email" placeholder="example@example.com">
+    <br />
+    <label for="subject">Reason for Contacting(Required):</label>
+    <textarea type="text" id="reason" name="reason" placeholder="Inquiry for Work..." style="height:200px"></textarea>
+    <input type="submit" name="submit" value="Submit">
+  </form>
+</div>				
+
+  
+<!-- Styling taken from my personal website contact section. Some styling removed... -->
+<style>
+/*Contact Section*/
+#formContainer{
+	text-align: center;
+	justify-content: center;
+	margin-right: 5em;
+	margin-left: 5em;
+}
+
+/*Contact Section/Page*/
+input[type=text], input[type=email], select, textarea{
+  width: 80%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 6px; /* Bottom margin */
+  resize: none; /* Allow the user to vertically resize the textarea (not horizontally) */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  justify-content: center;
+  display: block;
+}
+
+label{
+	margin-left: 5em;
+	display: block;
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  margin-left: 5em;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.unvalidForm{
+	text-align: center;
+	font-size: .7em;
+	background-color: whitesmoke;
+}
+</style>
 
 <%- include ('../partials/footer') %>
