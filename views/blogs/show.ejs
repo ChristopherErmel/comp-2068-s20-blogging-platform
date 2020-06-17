@@ -1,0 +1,19 @@
+<%- include ('../partials/header') %>
+
+<div class="container my-5">
+    <header>
+        <!-- This will grab the blog title from the id thats returned... -->
+        <h1><%= blog.title %></h1>
+        <br>
+        <small>
+            <%= (blog.updatedAt.toLocaleString("en-CA")) %>
+        </small>
+    </header>
+    <hr>
+    <div class="content">
+        <!-- use a '-' to output the proper html... no syntax -->
+        <%- blog.content %> 
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>

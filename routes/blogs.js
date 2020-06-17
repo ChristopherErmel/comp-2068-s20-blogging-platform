@@ -10,11 +10,11 @@ Christopher Ermel
 
 
  module.exports = router => {
-    router.get('/blogs/index', index);        
+    router.get('/blogs', index);        
     router.get('/blogs/new', _new);
     
     //we dont need an id here because we will be sending out id feild with out edit string...
-    router.post('/blogs/create', create);
+    router.post('/blogs', create);
     router.post('/blogs/update', update);
     router.post('/blogs/delete', _delete);
     
