@@ -1,0 +1,14 @@
+<%- include ('../partials/header') %>
+<div class="container my-5">
+    <header>
+        <h1>Edit: <%= formData.title %></h1>
+    </header>
+    <hr>
+
+    <div>
+        <!-- adding a new actionPath var to be able to tell if the action path of the form should be going to blogs or update.. -->
+        <%- include ('./_form', { actionPath: '/blogs/update' }) %> 
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>

@@ -14,7 +14,7 @@ const Blog = require('../models/blog');
 exports.index = async (req, res) => {
     try {
     //to get all the blogs
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().sort({updatedAt: 'desc'});
     res.render(`${viewPath}/index`, {
         pageTitle: 'Archive',
         blogs: blogs
@@ -65,10 +65,12 @@ exports.create = async (req, res) => {
 
         //this will redirect the user to a different page.
         res.redirect(`/blogs/${blog.id}`);
-    } catch (err){
+    } catch (error){
         //danger red :(!
         req.flash('danger', `There was an error creating this blog: ${error}`);
-        res.redirect('/new');
+        //to resend the info to the form is there was an error
+        req.session.formData = req.body;
+        res.redirect('/blogs/new');
         // res.send(`Error: ${err}`);
     };
 
@@ -91,15 +93,52 @@ exports.create = async (req, res) => {
 };
 
 //view
-exports.edit = (req, res) => {
-    res.send(`Hi - Edit`);
+exports.edit = async (req, res) => {
+    try{
+    const blog = await Blog.findById(req.params.id);
+    res.render(`${viewPath}/edit`, {
+        pageTitle: blog.title,
+        formData: blog
+    });
+    } catch (error) {
+        req.flash('danger', `There was an error accessing this blog: ${error}`);
+        res.redirect('/');
+        console.log(error);
+    }
 };
 //process
-exports.update = (req, res) => {
-    res.send(`Wow - update`);
+exports.update = async (req, res) => {
+    try {
+        let blog = await Blog.findById(req.body.id);
+        //if theres no blog throw error
+        if (!blog) throw new Error('Blog could not be found');
+
+        //this is used to validate the content
+        await Blog.validate(req.body);
+        //this is used to update the content
+        await Blog.updateOne(req.body);
+
+        req.flash('success', 'The blog was updated successfully.');
+        res.redirect(`/blogs/${req.body.id}`);
+
+
+    } catch (error) {
+        req.flash('danger', `There was an error updating this blog: ${error}`);
+        res.redirect('/blogs/${req.body.id}/edit');
+    }
 };
 
 //process
-exports.delete = (req, res) => {
-    res.send(`byebye - delete`);
+exports.delete = async (req, res) => {
+    try {
+        
+        //deleted the post...
+        await Blog.deleteOne({_id: req.body.id});
+
+        req.flash('success', 'The blog was deleted successfully.');
+        res.redirect(`/blogs`);        
+    } catch (error) {
+        req.flash('danger', `There was an error deleting this blog: ${error}`);
+        res.redirect('/blogs'); 
+    }
 };

@@ -52,6 +52,12 @@ app.use('/', (req, res, next) => {
 
     //this will take all the flash msgs and store them in a local var
     res.locals.flash = req.flash();
+
+    //if we have form data we will see it, if not nothing
+    res.locals.formData = req.session.formData || {};
+    //we need to clear the formdata after refresh of page
+    req.session.formData = {};
+
     //this will jump to the next middleware now
     next();
 });
