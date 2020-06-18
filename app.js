@@ -33,6 +33,29 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+//implement sessions!
+const session = require('express-session');
+app.use(session({
+    secret: 'any salty secret here',
+    resave: true,
+    saveUninitialized: false
+}));
+
+//implement our flash notification!
+const flash = require('connect-flash');
+app.use(flash());
+//custom middleware for flash
+app.use('/', (req, res, next) => {
+    //setting the default local vars
+    //this will effect every page...
+    res.locals.pageTitle = "Untitled";
+
+    //this will take all the flash msgs and store them in a local var
+    res.locals.flash = req.flash();
+    //this will jump to the next middleware now
+    next();
+});
+
 
 //need to register our routing
 const routes = require('./routes.js');
@@ -46,4 +69,5 @@ app.use('/js', express.static('assets/js'));
 app.use('/images', express.static('assets/images'));
 
 //Start our server
-app.listen(process.env.PORT || 3000, () => console.log(`Listening on port 3000`));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port 3000`));

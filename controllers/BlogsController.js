@@ -11,19 +11,34 @@ const viewPath = ('blogs');
 const Blog = require('../models/blog');
 
 //view
-exports.index = (req, res) => {
-    res.send(`Got to catch em all - index`);
+exports.index = async (req, res) => {
+    try {
+    //to get all the blogs
+    const blogs = await Blog.find();
+    res.render(`${viewPath}/index`, {
+        pageTitle: 'Archive',
+        blogs: blogs
+        });
+    } catch (error) {
+        req.flash('danger', `There was an error displaying the archive: ${error}`);
+        res.redirect('/');
+    }
 };
 
 //view
 exports.show = async (req, res) => {
+    try {
     //console.log(req.params);
     const blog = await Blog.findById(req.params.id);
-    console.log(blog);
+    //console.log(blog);
     res.render(`${viewPath}/show`, {
         pageTitle: blog.title,
         blog: blog
     });
+    } catch (error) {
+        req.flash('danger', `There was an error displaying this blog: ${error}`);
+        res.redirect('/');
+    }
 };
 
 //view
@@ -45,10 +60,16 @@ exports.create = async (req, res) => {
     try{
         //this const is to allow us to grab the id from the blog info to use for the blog id show page...
         const blog = await Blog.create(req.body);
+        //success green!
+        req.flash('success', 'Blog Created Successfully!');
+
         //this will redirect the user to a different page.
         res.redirect(`/blogs/${blog.id}`);
     } catch (err){
-        res.send(`Error: ${err}`);
+        //danger red :(!
+        req.flash('danger', `There was an error creating this blog: ${error}`);
+        res.redirect('/new');
+        // res.send(`Error: ${err}`);
     };
 
     //this is old, without await...
