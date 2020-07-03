@@ -19,19 +19,35 @@
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" id="blogsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blogs</a>
                 <div class="dropdown-menu" aria-labelledby="blogsDropdown">
-                    <a href="/blogs" class="dropdown-item">Archive</a>
+                    <a href="/blogs" class="dropdown-item">Archive</a>                    
+                    <% if (authorized){ %> 
                     <div class="dropdown-divider"></div>
                     <a href="/blogs/new" class="dropdown-item">New Post</a>
+                    <% } %>
                 </div>
             </li>
         </ul>
 
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="/register" class="nav-link">
-                    <i class="fa fa-user-plus"> Register</i>
-                </a>
-            </li>
+            <!-- Checks to see is user is logged in before showing options -->
+            <% if (authorized){ %>             
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">
+                        <i class="fa fa-sign-out"> Logout</i>
+                    </a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a href="/register" class="nav-link">
+                        <i class="fa fa-user-plus"> Register</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/login" class="nav-link">
+                        <i class="fa fa-sign-in"> Login</i>
+                    </a>
+                </li>
+            <% } %>
         </ul>
     </div>
 </nav>

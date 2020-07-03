@@ -6,13 +6,6 @@ require('dotenv').config();
 
 const path = require('path');
 
-//set our views directory
-//sets the views and the path for the views. 
-//finds the home dir and then finds views for us
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
 //Mongo access
 const mongoose = require('mongoose');
 //env is the enviornment, bd uri is the url var
@@ -34,7 +27,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+
 //implement sessions!
+//needed for passport
+const passport = require('passport');
 const session = require('express-session');
 app.use(session({
     secret: 'any salty secret here',
@@ -42,7 +38,24 @@ app.use(session({
     saveUninitialized: false
 }));
 
-//implement our flash notification!
+//setting up passport
+app.use(passport.initialize());
+app.use(passport.session());
+const User = require('./models/user');
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+//set our views directory
+//sets the views and the path for the views. 
+//finds the home dir and then finds views for us
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+
+//implement our flash notification and defaults!
 const flash = require('connect-flash');
 app.use(flash());
 //custom middleware for flash
@@ -58,6 +71,13 @@ app.use('/', (req, res, next) => {
     res.locals.formData = req.session.formData || {};
     //we need to clear the formdata after refresh of page
     req.session.formData = {};
+
+    //authentication helper
+    res.locals.authorized = req.isAuthenticated();
+    if(res.locals.authorized){
+        res.locals.email = req.session.passport.user;
+    }
+
 
     //this will jump to the next middleware now
     next();

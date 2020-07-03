@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -37,6 +39,7 @@ const UserSchema = new mongoose.Schema({
     timestamps: true
 });
 
+//validation attribute
 UserSchema.virtual('emailConfirmation')
 //get data from form
 .get(function (){
@@ -47,10 +50,39 @@ UserSchema.virtual('emailConfirmation')
     this._emailConfirmation = value;
 });
 
+
+
+UserSchema.virtual('password')
+.get(function (){
+    return this._password;
+})
+.set(function (value){
+    this._password = value;
+});
+
+
+UserSchema.virtual('passwordConfirmation')
+.get(function (){
+    return this._passwordConfirmation;
+})
+.set(function (value){
+    if (this.password !== value){
+        this.invalidate('password', 'Password and Password Confirmation must match!');        
+    }
+    this._passwordConfirmation = value;
+});
+
+//a helper attribute
 //new virtual for the first and last name of the new user...
 UserSchema.virtual('fullName')
 .get(function (){
     return `${this.firstName} ${this.lastName}`
 });
+
+
+UserSchema.plugin(passportLocalMongoose, {
+    usernameField: 'email'
+});
+
 
 module.exports = mongoose.model('User', UserSchema);

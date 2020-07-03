@@ -10,11 +10,14 @@ const viewPath = ('blogs');
 //to inclued our blog schema!
 const Blog = require('../models/blog');
 
+const User = require('../models/user');
+
+
 //view
 exports.index = async (req, res) => {
     try {
     //to get all the blogs
-    const blogs = await Blog.find().sort({updatedAt: 'desc'});
+    const blogs = await Blog.find().populate('user').sort({updatedAt: 'desc'});
     res.render(`${viewPath}/index`, {
         pageTitle: 'Archive',
         blogs: blogs
@@ -29,7 +32,9 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
     try {
     //console.log(req.params);
-    const blog = await Blog.findById(req.params.id);
+    const blog = await Blog.findById(req.params.id)
+    //to bring username...
+    .populate('user');
     //console.log(blog);
     res.render(`${viewPath}/show`, {
         pageTitle: blog.title,
@@ -58,8 +63,10 @@ exports.create = async (req, res) => {
     //mongoos model for creating a blog
     //we will turn this into an async function with await.
     try{
+        const {user : email } = req.session.passport;
+        const user = await User.findOne({email : email});
         //this const is to allow us to grab the id from the blog info to use for the blog id show page...
-        const blog = await Blog.create(req.body);
+        const blog = await Blog.create({user: user._id, ...req.body});
         //success green!
         req.flash('success', 'Blog Created Successfully!');
 
@@ -109,12 +116,22 @@ exports.edit = async (req, res) => {
 //process
 exports.update = async (req, res) => {
     try {
+        const {user : email } = req.session.passport;
+        const user = await User.findOne({email : email});
+
         let blog = await Blog.findById(req.body.id);
         //if theres no blog throw error
         if (!blog) throw new Error('Blog could not be found');
 
+
+
+
+        const attributes = {user : user._id, ...req.body};
+
+
         //this is used to validate the content
-        await Blog.validate(req.body);
+        //await Blog.validate(req.body);
+        await Blog.validate(attributes);
         //this is used to update the content
         //need _id for proper handeling
         await Blog.updateOne({_id: req.body.id}, req.body);

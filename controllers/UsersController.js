@@ -10,7 +10,11 @@ exports.new = (req, res) => {
 
 exports.create = async (req, res) => {
     try {
-        const user = await User.create(req.body);
+        //const user = await User.create(req.body);
+        const user = new User(req.body);
+        await User.register(user, req.body.password);
+
+
         req.flash('success', `Welcome, ${user.fullName}. Thank you for registering.`);
         res.redirect('/');
     } catch (error) {

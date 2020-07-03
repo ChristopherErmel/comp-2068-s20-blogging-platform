@@ -6,6 +6,12 @@ const mongoose = require('mongoose');
 //schema...
 const BlogSchema = new mongoose.Schema({
     //list of atributes 
+    //this will link our users to our posts...
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     title: {
         //data type
         type: String,
