@@ -103,7 +103,7 @@ exports.edit = async (req, res) => {
     } catch (error) {
         req.flash('danger', `There was an error accessing this blog: ${error}`);
         res.redirect('/');
-        console.log(error);
+        //console.log(error);
     }
 };
 //process
@@ -116,7 +116,8 @@ exports.update = async (req, res) => {
         //this is used to validate the content
         await Blog.validate(req.body);
         //this is used to update the content
-        await Blog.updateOne(req.body);
+        //need _id for proper handeling
+        await Blog.updateOne({_id: req.body.id}, req.body);
 
         req.flash('success', 'The blog was updated successfully.');
         res.redirect(`/blogs/${req.body.id}`);
