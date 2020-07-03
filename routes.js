@@ -15,6 +15,7 @@ const router = require('express').Router();
 //resource routes below
 (require('./routes/pages'))(router);
 (require('./routes/blogs'))(router);
+(require('./routes/users'))(router);
 
 //Exports our router
 //we need to export in order for our app to use this as middleware...

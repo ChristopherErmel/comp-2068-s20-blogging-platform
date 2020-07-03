@@ -118,6 +118,8 @@ exports.update = async (req, res) => {
         //this is used to update the content
         //need _id for proper handeling
         await Blog.updateOne({_id: req.body.id}, req.body);
+        //can also use findbyid and update...
+        //await Blog.findByIdAndUpdate(req.body.id, req.body);
 
         req.flash('success', 'The blog was updated successfully.');
         res.redirect(`/blogs/${req.body.id}`);
