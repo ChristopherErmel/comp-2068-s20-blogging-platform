@@ -124,13 +124,19 @@ app.get('/test', (req, res) => {
 });
 
 //this is the client root
-const clientRoot = path.join(__dirname, '/client/build');
-app.use((req, res, next) => {
-    //if its not a json request it wil be sent to html index.
-    if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
-        res.sendFile('index.html', {clientRoot});
-    }else next();
-})
+// const clientRoot = path.join(__dirname, '/client/build');
+// app.use((req, res, next) => {
+//     //if its not a json request it wil be sent to html index.
+//     if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
+//         res.sendFile('index.html', {clientRoot});
+//     }else next();
+// })
+
+//heroku implementation
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) =>{
+    res.sendFile(path.join(__dirname+'client/build/index.html'));
+});
 
 //use registers our middleware
 app.use('/css', express.static('assets/css'));
