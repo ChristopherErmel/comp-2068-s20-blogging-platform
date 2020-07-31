@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Form, Container} from 'react-bootstrap';
 import Axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const New = function () {
     const [inputs, setInputs] = useState({
@@ -14,11 +15,24 @@ const New = function () {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        //captures responce to send to endpoint
-        const resp = await Axios.post('/blogs', inputs);
-        //if responce is good, redirect user
-        if(resp.status === 200){
-            setRedirect(true);
+        try {
+            //captures responce to send to endpoint
+            const resp = await Axios.post('/blogs', inputs);
+            //if responce is good, redirect user
+            if(resp.status === 200){
+                toast('The blog was created successfully!', {
+                    type: toast.TYPE.SUCCESS
+                });
+                setRedirect(true);
+            }else {
+                toast('There was an error creating the blog.', {
+                    type: toast.TYPE.ERROR
+                });
+            }
+        }catch (error){
+            toast('There was an error creating the blog.', {
+                type: toast.TYPE.ERROR
+            });
         }
     };
 

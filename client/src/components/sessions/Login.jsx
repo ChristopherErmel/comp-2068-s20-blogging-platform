@@ -3,6 +3,8 @@ import Axios from 'axios';
 import {useState} from 'react';
 import {Form, Container} from 'react-bootstrap';
 
+import {toast} from 'react-toastify';
+
 //refdirect function
 import {Redirect} from 'react-router-dom'; 
 
@@ -18,22 +20,36 @@ const Login = ({setUser}) => {
     });
 
     //redirects to any route we defined, setting it to false rn
-    const [redirect, setRedirect] = useState('False');
+    const [redirect, setRedirect] = useState(false);
 
     //stop the form from subbmitting
     //stop the default operation... which is to submit the data
     const handleSubmit = async event => {
         //stops the default
         event.preventDefault();
-        //where u want to go 'authenticate', and then the data as an object 'inputs'
-        const resp = await Axios.post('/authenticate', inputs);
-        //if authenticated from sessionscontroller then set user else
-        if(resp.status === 200){
-            //capture user data and make sure they are logged in and make redirect true
-            setUser(resp.data.user);
-            setRedirect(true);
-        }else {
 
+        try{
+            //where u want to go 'authenticate', and then the data as an object 'inputs'
+            const resp = await Axios.post('/authenticate', inputs);
+            //if authenticated from sessionscontroller then set user else
+            if(resp.status === 200){
+                //capture user data and make sure they are logged in and make redirect true
+                setUser(resp.data.user);
+                //creating a toast
+                toast('You have logged in successfully!', {
+                    type: toast.TYPE.SUCCESS
+                });
+                setRedirect(true);
+            }else {
+                toast('There was an error logging you in.', {
+                    type: toast.TYPE.ERROR
+                });
+                setRedirect(false);
+            }
+        }catch (error){
+            toast('There was an error logging you in.', {
+                type: toast.TYPE.ERROR
+            });
         }
     };
 
