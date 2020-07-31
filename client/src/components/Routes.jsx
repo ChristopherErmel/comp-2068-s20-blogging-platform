@@ -6,6 +6,7 @@ import {Route, Switch} from "react-router-dom";
 //imports the components we want to use for routes
 import Home from './pages/Home';
 import About from './pages/About';
+import Login from './sessions/Login';
 
 //routes component
 //the routes is a component!
@@ -15,6 +16,7 @@ function Routes(){
             {/* path is what the path will be, home is the component to load */}
             <Route exact path="/" component={Home}/>
             <Route exact path="/about" component={About}/>
+            <Route exact path="/login" component={Login}/>
         </Switch>
     );
 };

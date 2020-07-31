@@ -2,7 +2,16 @@ import React from 'react';
 import Routes from './Routes';
 import Nav from './shared/Nav';
 
+//yarn add axios 
+//import axios
+// import Axios from 'axios';
+
 function App() {
+  //this will test our proxys. Need axios for this!
+  // const resp = Axios.get('/test').then(resp => {
+  //   console.log(resp.data.message);
+  // });
+
   return (
     //fragment is used to encampsulate...
     <React.Fragment>

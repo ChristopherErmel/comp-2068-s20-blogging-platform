@@ -14,11 +14,34 @@ function Nav () {
                     <li className="nav-item">
                         <Link to="/" className="nav-link">Home</Link>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                         <Link to="/about" className="nav-link">About</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/contact" className="nav-link">Contact</Link>
+                    </li>
+                    <li className="nav-item">                        
+                        <ul className="navbar-nav">
+                        {/* <% if (authorized){ %>              */}
+                            <li className="nav-item">
+                                <a href="/logout" className="nav-link">
+                                    <i className="fa fa-sign-out"> Logout</i>
+                                </a>
+                            </li>
+                        {/* <% } else { %> */}
+                            <li className="nav-item">
+                                <a href="/register" className="nav-link">
+                                    <i className="fa fa-user-plus"> Register</i>
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/login" className="nav-link">Login</Link>
+                            </li>
+                        {/* <% } %> */}
+                    </ul>
+
+
+
                     </li>
                 </ul>               
             </div>

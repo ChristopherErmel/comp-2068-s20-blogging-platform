@@ -91,6 +91,11 @@ const routes = require('./routes.js');
 //this will forward all infor from the user into the routes folder...
 app.use('/', routes);
 
+//testing routes
+app.get('/test', (req, res) => {
+    res.status(200).json({message: 'Hello World'});
+});
+
 //this is the client root
 const clientRoot = path.join(__dirname, '/client/build');
 app.use((req, res, next) => {

@@ -8,7 +8,10 @@ exports.new = (req, res) => {
     });
 };
 
-exports.create = (req, res) => {
+exports.create = (req, res, next) => {
+    //with react to see data
+    return res.status(200).json({...req.body, message: "Hello."});
+
     //return funct deff
     //local is the authentication stratigy
     passport.authenticate('local', {
@@ -17,7 +20,7 @@ exports.create = (req, res) => {
         failureRedirect: '/login',
         failureFlash: 'Invalid Credentials'
         //passing details
-    })(req, res);
+    })(req, res, next);
 };
 
 exports.delete = (req, res) => {
