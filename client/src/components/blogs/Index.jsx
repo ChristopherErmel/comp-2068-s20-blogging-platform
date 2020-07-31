@@ -17,7 +17,7 @@ const Index = function ({user}) {
 
 
     const getBlogs = async () => {
-        const blogsResp = await Axios.get('./blogs');
+        const blogsResp = await Axios.get('/api/blogs');
         // console.log(blogsResp);
         if (blogsResp.status === 200) setBlogs(blogsResp.data);
     };
@@ -25,10 +25,10 @@ const Index = function ({user}) {
     const deleteBlog = async blog => {
         try {
             //gets the blogs id
-            const resp = await Axios.post('blogs/delete', {
+            const resp = await Axios.post('/api/blogs/delete', {
                 id: blog._id
             });
-            if(resp. status === 200) toast("The blog was deleted successfully!", {type: toast.TYPE.SUCCESS});
+            if(resp.status === 200) toast("The blog was deleted successfully!", {type: toast.TYPE.SUCCESS});
             await getBlogs();
         }catch (error){
             toast('There was an error deleting the blog.', {
@@ -67,7 +67,7 @@ const Index = function ({user}) {
                             <p className="card-text">{blog.synopsis}</p>
                         </div>
 
-                    {typeof user !== 'undefined' ? (
+                    {user ? (
                         <div className="card-footer">
                             <Link to={{
                                 pathname: "/blogs/edit",

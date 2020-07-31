@@ -115,7 +115,8 @@ const routes = require('./routes.js');
 //use this routes file as middleware
 //this will use the middelware provided
 //this will forward all infor from the user into the routes folder...
-app.use('/', routes);
+// /api for react and heroku
+app.use('/api', routes);
 
 //testing routes
 app.get('/test', (req, res) => {

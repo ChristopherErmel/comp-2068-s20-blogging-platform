@@ -20,7 +20,7 @@ const Edit = function (props) {
 
     useEffect(() => {
         (async () => {
-            const blogResp = await Axios.get(`/blogs/${id}`);
+            const blogResp = await Axios.get(`api/blogs/${id}`);
             if(blogResp.status === 200) setInputs(blogResp.data);
         })();
     }, []);
@@ -30,7 +30,7 @@ const Edit = function (props) {
         event.preventDefault();
         try {
             //captures responce to send to endpoint
-            const resp = await Axios.post('/blogs/update', inputs);
+            const resp = await Axios.post('api/blogs/update', inputs);
             //if responce is good, redirect user
             if(resp.status === 200){
                 toast('The blog was updated successfully!', {

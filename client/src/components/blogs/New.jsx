@@ -17,7 +17,7 @@ const New = function () {
         event.preventDefault();
         try {
             //captures responce to send to endpoint
-            const resp = await Axios.post('/blogs', inputs);
+            const resp = await Axios.post('/api/blogs', inputs);
             //if responce is good, redirect user
             if(resp.status === 200){
                 toast('The blog was created successfully!', {

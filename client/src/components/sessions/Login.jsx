@@ -30,7 +30,7 @@ const Login = ({setUser}) => {
 
         try{
             //where u want to go 'authenticate', and then the data as an object 'inputs'
-            const resp = await Axios.post('/authenticate', inputs);
+            const resp = await Axios.post('/api/authenticate', inputs);
             //if authenticated from sessionscontroller then set user else
             if(resp.status === 200){
                 //capture user data and make sure they are logged in and make redirect true
