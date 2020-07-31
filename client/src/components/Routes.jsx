@@ -10,11 +10,12 @@ import Login from './sessions/Login';
 
 import Blogs from './blogs/Index';
 import NewBlog from './blogs/New';
+import EditBlog from './blogs/Edit';
 
 //routes component
 //the routes is a component!
 //add props to store the properties
-function Routes({setUser}){
+function Routes({user, setUser}){
     return(
         <Switch>
             {/* path is what the path will be, home is the component to load */}
@@ -27,8 +28,9 @@ function Routes({setUser}){
                 setUser={setUser}
                 />
             }/>
-            <Route exact path="/blogs" component={Blogs}/>
+            <Route exact path="/blogs" render={renderProps => <Blogs {...renderProps} user={user}/> } />
             <Route exact path="/blogs/new" component={NewBlog}/>
+            <Route exact path="/blogs/edit" component={EditBlog}/>
         </Switch>
     );
 };

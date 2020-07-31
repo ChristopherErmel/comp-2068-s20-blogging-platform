@@ -38,13 +38,17 @@ exports.show = async (req, res) => {
     //to bring username...
     .populate('user');
     //console.log(blog);
-    res.render(`${viewPath}/show`, {
-        pageTitle: blog.title,
-        blog: blog
-    });
+    // res.render(`${viewPath}/show`, {
+    //     pageTitle: blog.title,
+    //     blog: blog
+    // });
+
+    //react
+    res.status(200).json(blog);
     } catch (error) {
-        req.flash('danger', `There was an error displaying this blog: ${error}`);
-        res.redirect('/');
+        // req.flash('danger', `There was an error displaying this blog: ${error}`);
+        // res.redirect('/');
+        res.status(400).json({message: "There was an error displaying this blog"});
     }
 };
 
@@ -164,10 +168,14 @@ exports.delete = async (req, res) => {
         //deleted the post...
         await Blog.deleteOne({_id: req.body.id});
 
-        req.flash('success', 'The blog was deleted successfully.');
-        res.redirect(`/blogs`);        
+        // req.flash('success', 'The blog was deleted successfully.');
+        // res.redirect(`/blogs`); 
+        
+        //react
+        res.status(200).json({message: "Yay."});
     } catch (error) {
-        req.flash('danger', `There was an error deleting this blog: ${error}`);
-        res.redirect('/blogs'); 
+        // req.flash('danger', `There was an error deleting this blog: ${error}`);
+        // res.redirect('/blogs'); 
+        res.status(400).json({message: "There was an error deleting this blog"});
     }
 };

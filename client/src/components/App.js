@@ -24,7 +24,7 @@ function App() {
     <React.Fragment>
       <ToastContainer/>
       <Nav/>
-      <Routes setUser={setUser}/>
+      <Routes user={user} setUser={setUser}/>
     </React.Fragment>
   );
 }
