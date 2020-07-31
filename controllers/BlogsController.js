@@ -18,13 +18,15 @@ exports.index = async (req, res) => {
     try {
     //to get all the blogs
     const blogs = await Blog.find().populate('user').sort({updatedAt: 'desc'});
-    res.render(`${viewPath}/index`, {
-        pageTitle: 'Archive',
-        blogs: blogs
-        });
+    // res.render(`${viewPath}/index`, {
+    //     pageTitle: 'Archive',
+    //     blogs: blogs
+    //     });
+    res.status(200).json(blogs);
     } catch (error) {
-        req.flash('danger', `There was an error displaying the archive: ${error}`);
-        res.redirect('/');
+        // req.flash('danger', `There was an error displaying the archive: ${error}`);
+        // res.redirect('/');
+        res.status(400).json({message: 'There was an error fetching the blogs'});
     }
 };
 
@@ -67,18 +69,25 @@ exports.create = async (req, res) => {
         const user = await User.findOne({email : email});
         //this const is to allow us to grab the id from the blog info to use for the blog id show page...
         const blog = await Blog.create({user: user._id, ...req.body});
-        //success green!
-        req.flash('success', 'Blog Created Successfully!');
+        // //success green!
+        // req.flash('success', 'Blog Created Successfully!');
 
-        //this will redirect the user to a different page.
-        res.redirect(`/blogs/${blog.id}`);
+        // //this will redirect the user to a different page.
+        // res.redirect(`/blogs/${blog.id}`);
+
+        //reacte stuffs instead
+        res.status(200).json(blog);
+
     } catch (error){
-        //danger red :(!
-        req.flash('danger', `There was an error creating this blog: ${error}`);
-        //to resend the info to the form is there was an error
-        req.session.formData = req.body;
-        res.redirect('/blogs/new');
-        // res.send(`Error: ${err}`);
+        // //danger red :(!
+        // req.flash('danger', `There was an error creating this blog: ${error}`);
+        // //to resend the info to the form is there was an error
+        // req.session.formData = req.body;
+        // res.redirect('/blogs/new');
+        // // res.send(`Error: ${err}`);
+        
+        //react stuffs here
+        res.status(400).json({message: "There was an error creating the blog post", error});
     };
 
     //this is old, without await...

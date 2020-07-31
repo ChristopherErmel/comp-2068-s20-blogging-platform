@@ -17,8 +17,8 @@ const Login = ({setUser}) => {
         password: ''
     });
 
-    //redirects to any route we defined
-    const [redirect, setRedirect] = userState('False');
+    //redirects to any route we defined, setting it to false rn
+    const [redirect, setRedirect] = useState('False');
 
     //stop the form from subbmitting
     //stop the default operation... which is to submit the data

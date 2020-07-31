@@ -25,21 +25,19 @@ exports.create = (req, res, next) => {
     // })(req, res, next);
 
     passport.authenticate('local', (err, user) => {
-        if(err || !user){
-            return res.status(401).json({
+        if(err || !user) return res.status(401).json({
                 status: 'failed',
                 message: 'Not Authorized',
                 error: err
             });
-        }
+
         req.login(user, err => {
-            if(err){
-                return res.status(401).json({
+            if(err) return res.status(401).json({
                     status: 'failed',
                     message: 'Not Authorized',
                     error: err
                 });
-            }
+                
             // JWT REMOVED BELOW
             // un setts the property for password, dosnt effect db
             //delete user.password;

@@ -8,6 +8,9 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Login from './sessions/Login';
 
+import Blogs from './blogs/Index';
+import NewBlog from './blogs/New';
+
 //routes component
 //the routes is a component!
 //add props to store the properties
@@ -24,6 +27,8 @@ function Routes({setUser}){
                 setUser={setUser}
                 />
             }/>
+            <Route exact path="/blogs" component={Blogs}/>
+            <Route exact path="/blogs/new" component={NewBlog}/>
         </Switch>
     );
 };
