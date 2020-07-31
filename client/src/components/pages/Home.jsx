@@ -11,7 +11,9 @@
 
 // export default Home;
 
-
+//for directing traffic
+//package.json main = after start: ,  "heroku-postbuild":"cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+//package.json client = brfore last } add , "proxy": "http://localhost:4000"
 
 import React from 'react';
 

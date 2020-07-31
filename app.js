@@ -90,11 +90,22 @@ const routes = require('./routes.js');
 //this will use the middelware provided
 //this will forward all infor from the user into the routes folder...
 app.use('/', routes);
+
+//this is the client root
+const clientRoot = path.join(__dirname, '/client/build');
+app.use((req, res, next) => {
+    //if its not a json request it wil be sent to html index.
+    if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
+        res.sendFile('index.html', {clientRoot});
+    }else next();
+})
+
 //use registers our middleware
 app.use('/css', express.static('assets/css'));
 app.use('/js', express.static('assets/js'));
 app.use('/images', express.static('assets/images'));
 
 //Start our server
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port 3000`));
+//change to 4000 for react port.
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`Listening on port ${port}`));
