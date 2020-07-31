@@ -47,6 +47,32 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
+//setting up passport jwt.
+const JwtStrategy = require('passport-jwt').Strategy;
+const opts = {};
+opts.jwtFromRequest = function (req) {
+    const token = (req && req.cookies) ? req.cookies ['token'] : null;
+    return token;
+}
+//uses this key for encryption
+opts.secretOrKey = 'superSecretSaltKey';
+//first arg is options
+//seccond arg is function, use standared function
+
+passport.use('jwt', new JwtStrategy(opts, function(jwt_payload, done) {
+    //validation is user exsits, no validation on password or anything.
+    User.findOne({id: jwt_payload.sub}, function (err, user){
+        //didnt authenticate
+        if (err) return done(err, false);
+        //worked, returns user
+        if (user) return done(null, user);
+        //else done null
+        return done(null, false);
+    });
+}));
+
+
+
 //set our views directory
 //sets the views and the path for the views. 
 //finds the home dir and then finds views for us
