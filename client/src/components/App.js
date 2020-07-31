@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Routes from './Routes';
 import Nav from './shared/Nav';
 
@@ -7,6 +7,11 @@ import Nav from './shared/Nav';
 // import Axios from 'axios';
 
 function App() {
+
+  const [user, setUser] = userState(false);
+
+
+
   //this will test our proxys. Need axios for this!
   // const resp = Axios.get('/test').then(resp => {
   //   console.log(resp.data.message);
@@ -16,7 +21,7 @@ function App() {
     //fragment is used to encampsulate...
     <React.Fragment>
       <Nav/>
-      <Routes/>
+      <Routes setUser={setUser}/>
     </React.Fragment>
   );
 }

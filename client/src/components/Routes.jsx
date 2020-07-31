@@ -10,13 +10,20 @@ import Login from './sessions/Login';
 
 //routes component
 //the routes is a component!
-function Routes(){
+//add props to store the properties
+function Routes({setUser}){
     return(
         <Switch>
             {/* path is what the path will be, home is the component to load */}
             <Route exact path="/" component={Home}/>
             <Route exact path="/about" component={About}/>
-            <Route exact path="/login" component={Login}/>
+            {/* <Route exact path="/login" component={Login}/> */}
+            <Route exact path="/login" render={
+                renderProps => <Login
+                {...renderProps}
+                setUser={setUser}
+                />
+            }/>
         </Switch>
     );
 };

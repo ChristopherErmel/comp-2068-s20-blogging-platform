@@ -3,16 +3,22 @@ import Axios from 'axios';
 import {useState} from 'react';
 import {Form, Container} from 'react-bootstrap';
 
+//refdirect function
+import {Redirect} from 'react-router-dom'; 
+
 // Button, FormControl
 
 
-function Login () {
+const Login = ({setUser}) => {
 
     //creating objexcts
     const [inputs, setInputs] = useState({
         email: '',
         password: ''
     });
+
+    //redirects to any route we defined
+    const [redirect, setRedirect] = userState('False');
 
     //stop the form from subbmitting
     //stop the default operation... which is to submit the data
@@ -21,7 +27,14 @@ function Login () {
         event.preventDefault();
         //where u want to go 'authenticate', and then the data as an object 'inputs'
         const resp = await Axios.post('/authenticate', inputs);
-        console.log(resp);
+        //if authenticated from sessionscontroller then set user else
+        if(resp.status === 200){
+            //capture user data and make sure they are logged in and make redirect true
+            setUser(resp.data.user);
+            setRedirect(true);
+        }else {
+
+        }
     };
 
     const handleInputChange = async event => {
@@ -44,6 +57,7 @@ function Login () {
 
     }
 
+    if (redirect) return <Redirect to="/blogs" />
 
     return (
         <Container className="my-5">
