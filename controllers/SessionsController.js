@@ -33,27 +33,32 @@ exports.create = (req, res, next) => {
             });
         }
         req.login(user, err => {
-            if(err || !user){
+            if(err){
                 return res.status(401).json({
                     status: 'failed',
                     message: 'Not Authorized',
                     error: err
                 });
             }
+            // JWT REMOVED BELOW
             // un setts the property for password, dosnt effect db
-            delete user.password;
+            //delete user.password;
             //user and salt key, salt key has to be the same as in app js!!!!!
-            const token = jwt.sign({user: user}, 'superSecretSaltKey');
+            //const token = jwt.sign({user: user}, 'superSecretSaltKey');
             //assign token to cookie
             //httponly to secure app, only will get info from http not curl or anything else.
-            res.cookie('token', token, {httpOnly: true});
+            //res.cookie('token', token, {httpOnly: true});
 
             return res.status(200).json({
                 status: 'success',
                 message: 'Logged in successfully',
-                user
+                user: {
+                    _id: user._id,
+                    fullName: user.fullName,
+                    email: user.email
+                }
             })
-        });        
+        })        
     })(req, res, next);
 };
 

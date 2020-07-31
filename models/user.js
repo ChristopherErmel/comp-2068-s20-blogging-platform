@@ -36,7 +36,12 @@ const UserSchema = new mongoose.Schema({
         ]
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    //user to change to json
+    toJSON: {
+        //this will get us our virtual functions/names
+        getters: true
+    }
 });
 
 //validation attribute

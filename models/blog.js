@@ -31,7 +31,10 @@ const BlogSchema = new mongoose.Schema({
     }
 }, {
     //this will create a timestamp for us...
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+        getters: true
+    }
 });
 
 // Query Helpers!
