@@ -20,48 +20,51 @@ const Edit = function (props) {
 
     useEffect(() => {
         (async () => {
-            const blogResp = await Axios.get(`api/blogs/${id}`);
+            const blogResp = await Axios.get(`/api/blogs/${id}`);
             if(blogResp.status === 200) setInputs(blogResp.data);
         })();
     }, []);
 
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        //captures responce to send to endpoint       
         try {
-            //captures responce to send to endpoint
-            const resp = await Axios.post('api/blogs/update', inputs);
+            //line of code not working?
+            const resp = await Axios.post("/api/blogs/update", inputs);
+            console.log(resp.status);
             //if responce is good, redirect user
             if(resp.status === 200){
-                toast('The blog was updated successfully!', {
+                toast("The blog was updated successfully!", {
                     type: toast.TYPE.SUCCESS
                 });
                 setRedirect(true);
             }else {
-                toast('There was an error updating the blog.', {
+                toast("There was an error updating the blog.", {
                     type: toast.TYPE.ERROR
                 });
             }
         }catch (error){
-            toast('There was an error updating the blog.', {
+            //console.log(resp);
+            toast("There was an error updating the blog!" + error, {
                 type: toast.TYPE.ERROR
             });
         }
     };
 
 
-    const handleInputChange = async event => {
+    const handleInputChange = async (event) => {
         event.persist();
 
         const {name, value} = event.target;
 
-        setInputs(inputs => ({
+        setInputs((inputs) => ({
             ...inputs,
-            [name]: value
+            [name]: value,
         }));
     };
 
-    if(redirect) return (<Redirect to="/blogs"/>);
+    if(redirect) return (<Redirect to="/blogs/"/>);
 
     return (
         <Container className="my-5">
@@ -75,14 +78,14 @@ const Edit = function (props) {
                         <Form.Label>Title:</Form.Label>
                         <Form.Control name="title" onChange={handleInputChange} value={inputs.title}/>
                     </Form.Group>
-                </Form>
-                <Form onSubmit={handleSubmit}>
+                {/* </Form> */}
+                {/* <Form onSubmit={handleSubmit}> */}
                     <Form.Group>
                         <Form.Label>Content:</Form.Label>
                         <Form.Control as="textarea" name="content" onChange={handleInputChange} value={inputs.content}/>
                     </Form.Group>
-                </Form>
-                <Form onSubmit={handleSubmit}>
+                {/* </Form> */}
+                {/* <Form onSubmit={handleSubmit}> */}
                     <Form.Group>
                         <Form.Label>Status:</Form.Label>
                         <Form.Control as="select" name="status" onChange={handleInputChange} defaultValue={inputs.status || 'DRAFT'}>

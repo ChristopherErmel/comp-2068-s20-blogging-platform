@@ -147,17 +147,18 @@ exports.update = async (req, res) => {
         await Blog.validate(attributes);
         //this is used to update the content
         //need _id for proper handeling
-        await Blog.updateOne({_id: req.body.id}, req.body);
+        // await Blog.updateOne({_id: req.body.id}, req.body);
+        await Blog.findByIdAndUpdate(attributes.id, attributes);
         //can also use findbyid and update...
         //await Blog.findByIdAndUpdate(req.body.id, req.body);
 
         req.flash('success', 'The blog was updated successfully.');
-        res.redirect(`/blogs/${req.body.id}`);
-
+       // res.redirect(`/blogs/${req.body.id}`);
+        res.status(200).json(blog);
 
     } catch (error) {
         req.flash('danger', `There was an error updating this blog: ${error}`);
-        res.redirect('/blogs/${req.body.id}/edit');
+        res.redirect(`/blogs/${req.body.id}/edit`);
     }
 };
 
